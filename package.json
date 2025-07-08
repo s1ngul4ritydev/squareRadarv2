@@ -1,0 +1,26 @@
+{
+  "name": "squareRadarv2",
+  "version": "2.0.0",
+  "description": "Bot de monitoramento avançado de aplicações na Squarecloud com alertas no Discord.",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "keywords": [
+    "squarecloud",
+    "discord",
+    "monitoramento",
+    "status",
+    "s1ngul4rity"
+  ],
+  "author": "CodeX Labs (S1ngul4rity - s1ngul4rity.dev)",
+  "license": "SEE LICENSE",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.11.0",
+    "axios": "^1.4.0"
+  }
+}

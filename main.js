@@ -42,10 +42,20 @@ for (const file of eventFiles) {
 }
 
 // 🕒 Checagem periódica com atraso configurável
-client.once('ready', () => {
+client.once('ready', async () => {
+  // ▶️ Checagem
   setInterval(() => {
     checkStatus(config, client);
   }, config.checkInterval);
+
+  // 📤 Executa deploy de comandos ao iniciar
+  try {
+    const { default: deploy } = await import('./deploy-commands.js');
+    await deploy(config.clientId, config.discordToken);
+    console.log('✅ | Comandos registrados com sucesso!');
+  } catch (err) {
+    console.error('❌ | Erro ao registrar comandos:', err);
+  }
 });
 
 // 🚀 Login do bot

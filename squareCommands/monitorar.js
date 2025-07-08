@@ -37,7 +37,9 @@ export default {
       try {
         const raw = await fs.readFile(appsFile, 'utf-8');
         appsData = JSON.parse(raw);
-      } catch {
+      } catch (err) {
+        console.warn('⚠️ | apps.json não encontrado ou inválido, criando novo arquivo.');
+      }
 
       if (!Array.isArray(appsData.applicationIds)) {
         appsData.applicationIds = [];

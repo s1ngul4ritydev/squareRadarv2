@@ -1,0 +1,7 @@
+{
+  "discordToken": "Token da sua aplicação no Discord",
+  "squarecloudToken": "Token da sua conta Squarecloud",
+  "applicationIds": [],
+  "channelId": "ID do canal para as notificações",
+  "checkInterval": 90000
+}

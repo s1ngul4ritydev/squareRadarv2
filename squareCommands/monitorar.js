@@ -1,5 +1,8 @@
 import { SlashCommandBuilder } from 'discord.js';
 import fs from 'fs/promises';
+import path from 'path';
+
+const appsFile = path.resolve('squareData/apps.json');
 
 export default {
   data: new SlashCommandBuilder()
@@ -29,34 +32,36 @@ export default {
         });
       }
 
-      const raw = await fs.readFile('./config.json', 'utf-8');
-      const config = JSON.parse(raw);
+      // 📥 Carrega os dados de apps.json
+      let appsData = { applicationIds: [] };
+      try {
+        const raw = await fs.readFile(appsFile, 'utf-8');
+        appsData = JSON.parse(raw);
+      } catch {
 
-      if (!Array.isArray(config.applicationIds)) {
-        return interaction.editReply({
-          content: '⚠️ | O campo `applicationIds` está ausente ou inválido no config.json.'
-        });
+      if (!Array.isArray(appsData.applicationIds)) {
+        appsData.applicationIds = [];
       }
 
       if (remover) {
-        if (!config.applicationIds.includes(appId)) {
+        if (!appsData.applicationIds.includes(appId)) {
           return interaction.editReply({
             content: '⚠️ | Esta aplicação **não** está sendo monitorada.'
           });
         }
 
-        config.applicationIds = config.applicationIds.filter(id => id !== appId);
-        await fs.writeFile('./config.json', JSON.stringify(config, null, 2));
+        appsData.applicationIds = appsData.applicationIds.filter(id => id !== appId);
+        await fs.writeFile(appsFile, JSON.stringify(appsData, null, 2));
         return interaction.editReply(`✅️ | Aplicação \`${appId}\` **removida** do monitoramento.`);
       } else {
-        if (config.applicationIds.includes(appId)) {
+        if (appsData.applicationIds.includes(appId)) {
           return interaction.editReply({
             content: '⚠️ | Esta aplicação **já** está sendo monitorada.'
           });
         }
 
-        config.applicationIds.push(appId);
-        await fs.writeFile('./config.json', JSON.stringify(config, null, 2));
+        appsData.applicationIds.push(appId);
+        await fs.writeFile(appsFile, JSON.stringify(appsData, null, 2));
         return interaction.editReply(`✅ | Aplicação \`${appId}\` **adicionada** ao monitoramento.`);
       }
     } catch (err) {

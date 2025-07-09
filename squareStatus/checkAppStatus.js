@@ -14,7 +14,7 @@ async function getAppData(appId, token) {
 
     if (!res.ok) throw new Error(`Erro HTTP ${res.status}`);
     const json = await res.json();
-    return json?.data || null;
+    return json?.response || null;
   } catch {
     return null;
   }
